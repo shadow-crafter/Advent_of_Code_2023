@@ -22,7 +22,7 @@ def process_input(line):
 
     return card_list
 
-def get_points(card, copies):
+def get_points(card):
     matches = 0
     for winning_num in card[0]:
         if winning_num in card[1]:
