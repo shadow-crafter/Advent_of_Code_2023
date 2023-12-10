@@ -9,7 +9,6 @@ def create_sequence(hist: list):
         hist.reverse()
     sequence.append(hist)
 
-
     layer = 0
 
     print(*hist, sep="   ")
