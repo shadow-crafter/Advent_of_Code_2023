@@ -90,6 +90,7 @@ for row in pipe_map:
 start_pipe.distance = 0
 current_pipe = start_pipe
 
+#list of pipes in loop
 while True:
     for connection in current_pipe.connections:
         if connection.distance != None:
