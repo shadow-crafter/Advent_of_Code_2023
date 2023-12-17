@@ -1,35 +1,17 @@
-galaxy_map = []
+with open("test.txt") as f:
+    grid = f.read().splitlines()
 
-def process_input(f):
-    galaxy = []
-    for line in f:
-        galaxy.append(list(line.strip()))
-    return galaxy
+rows = [i for i, row in enumerate(grid) if row == ('.' * len(grid[0]))]
+columns = [i for i, column in enumerate(zip(*grid)) if all(c == '.' for c in column)]
 
-def dupe_column(lst, col, offset):
-    for row in lst:
-        row.insert(row.index(row[col]) + offset, '.')
-    return lst
+galaxy_locations = [(x, y) for y, row in enumerate(grid) for x, column in enumerate(row) if column == '#']
 
-def expand_galaxy(galaxy):
-    expansions = [[], []]
-    x_length, y_length = len(galaxy[0]), 0
-    for y, row in enumerate(galaxy):
-        if not '#' in row:
-            expansions[1].append(y)
-        for column, x in enumerate(row):
-            if x == '.':
-                expansions[0].append(column)
-        y_length += 1
-    
-    yexp_count = 0
-    for y in expansions[1]:
-        galaxy.insert(y + yexp_count, list('.' * x_length))
-        yexp_count += 1
-    
-    return galaxy
+sums = []
+for i1, (x1, y1) in enumerate(galaxy_locations):
+    for i2, (x2, y2) in enumerate(galaxy_locations):
+        if i1 == i2: continue
 
-with open("input.txt") as f:
-    galaxy_map = process_input(f)
-    galaxy_map = expand_galaxy(galaxy_map)
-    print(*galaxy_map, sep='\n')
+        dist = abs(x1 - x2) + abs(y1 - y2)
+        print(dist)
+
+print(f"{grid} \nRows: {rows} \nCols: {columns}")

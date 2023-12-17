@@ -28,7 +28,7 @@ def process_input(f):
 def move_rocks(grid, direction):
     new_grid = grid
     moved = 0
-
+    
     for y, row in enumerate(new_grid):
         for x in np.where(row == 'O')[0]:
             try:
@@ -50,13 +50,15 @@ def calculate_load(rock_grid):
         for x in np.where(row == 'O')[0]:
             load = grid_height - y
             total_load += load
-            print(f"Rock at {x, y} has a load of {load}.")
+            #print(f"Rock at {x, y} has a load of {load}.")
     return total_load
 
 with open("input.txt") as f:
     rock_grid, w, h = process_input(f)
     grid_width = w
     grid_height = h
+
+cycle_frequency = {}
 
 while cycles != 0:
     for i in range(4):
@@ -65,13 +67,13 @@ while cycles != 0:
         while amount_moved != 0:
             rock_grid, moved = move_rocks(rock_grid, direction)
             amount_moved = moved
+        #print(rock_grid, '\n')
+        #print("\n----------------------------------------\n")
     cycles -= 1
-    
-    print(f"CYCLES_LEFT = {cycles}")
-    #print(rock_grid)
-    #print("\n----------------------------------------\n")
+    total_load = calculate_load(rock_grid)
+    cycle_frequency[total_load] = cycle_frequency.get(total_load, 0) + 1
 
-total_load = calculate_load(rock_grid)
+    print(f"CYCLES_LEFT = {cycles}, with a load of {total_load}. The frequencies are: {cycle_frequency}")
 
 print("\n----------------------------------------\n")
 print(f"All rocks moved far north, the grid at a width of {grid_width} and height of {grid_height}.")
